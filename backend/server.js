@@ -18,23 +18,7 @@ connectDB();
 const app = express();
 
 app.use(function (req, res, next) {
-  // res.header("Access-Control-Allow-Origin", "*");
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://health-care-wvs3.onrender.com/',
-    'https://health-care-wvs3.onrender.com/',
-  ];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.header('Access-Control-Allow-credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
-  next();
+  res.header('Access-Control-Allow-Origin', '*');
 });
 
 app.use(express.json());
@@ -45,12 +29,12 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
-app.use(
-  cors({
-    origin: 'health-care-frontend-7jrnyrjd7-ecallhealths-projects.vercel.app',
-  })
-);
-app.options('*', cors());
+// app.use(
+//   cors({
+//     origin: 'health-care-frontend-7jrnyrjd7-ecallhealths-projects.vercel.app',
+//   })
+// );
+// app.options('*', cors());
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
