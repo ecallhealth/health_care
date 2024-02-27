@@ -2,9 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": { "outputDirectory": "public" }
+      "src": "./backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "./frotend/build",
+      "use": "@vercel/static"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/backend/server.js"
     }
   ]
 }
