@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
 import Message from './Message';
-import banners from './banners.json'
 import { useGetTopProductsQuery } from '../slices/productsApiSlice';
 
 const ProductCarousel = () => {
@@ -16,19 +15,21 @@ const ProductCarousel = () => {
       fade
       style={{ width: '100%' }}
     >
-      {banners.map((item, index) => (
+      {products.map((product) => (
         <Carousel.Item key={index}>
-          <Link>
+          <Link to={`/product/${product._id}`}>
             <Image
-              src={item.imageUrl}
-              alt={`Slide ${index + 1}`}
+              src={product.image}
+              alt={product.name}
               fluid
               // className='d-block w-100'
               style={{ height: '400px', objectFit: 'cover' }}
               className='d-block w-100'
             />
             <Carousel.Caption className='carousel-caption'>
-              <h2 className='text-white text-right'>{item.title}</h2>
+              <h2 className='text-white text-right'>
+                {product.name} (UGX {product.price})
+              </h2>
             </Carousel.Caption>
           </Link>
         </Carousel.Item>
