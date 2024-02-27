@@ -25,10 +25,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
-app.use(
-  cors({ origin: 'https://health-care-wvs3.onrender.com/', credentials: true })
-);
-
+app.use(cors({ origin: 'https://health-care-wvs3.onrender.com/' }));
+app.options('*', cors());
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
