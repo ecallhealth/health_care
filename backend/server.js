@@ -17,6 +17,26 @@ connectDB();
 
 const app = express();
 
+app.use(function (req, res, next) {
+  // res.header("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://health-care-wvs3.onrender.com/',
+    'https://health-care-wvs3.onrender.com/',
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.header('Access-Control-Allow-credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -27,8 +47,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use(
   cors({
-    origin:
-      'https://health-care-frontend-q7ets2b3s-ecallhealths-projects.vercel.app',
+    origin: 'health-care-frontend-7jrnyrjd7-ecallhealths-projects.vercel.app',
   })
 );
 app.options('*', cors());
