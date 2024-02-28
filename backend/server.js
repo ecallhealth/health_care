@@ -17,24 +17,22 @@ connectDB();
 
 const app = express();
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+const cors = require('cors');
+var whitelist = [
+  'http://localhost:5000',
+  'https://health-care-frontend-amber.vercel.app/',
+];
+var corsOptions = { origin: whitelist, credentials: true };
+app.use(cors(corsOptions));
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
-app.use(
-  cors({
-    origin: 'health-care-frontend-7jrnyrjd7-ecallhealths-projects.vercel.app',
-  })
-);
-app.options('*', cors());
+
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
