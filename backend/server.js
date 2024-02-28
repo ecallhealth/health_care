@@ -20,12 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-var whitelist = [
-  'http://localhost:5000',
-  'https://health-care-frontend-amber.vercel.app/',
-];
-var corsOptions = { origin: whitelist, credentials: true };
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
