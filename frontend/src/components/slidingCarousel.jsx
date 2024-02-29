@@ -34,7 +34,7 @@ const slidingCarousel = () => {
               src={slide.image}
               alt={slide.name}
               fluid
-              style={{ height: '400px', objectFit: 'cover' }}
+              style={{ height: '400px', objectFit: 'contain' }}
               className='d-block w-100'
             />
           </Link>
