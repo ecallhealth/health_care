@@ -336,10 +336,30 @@ table th {
 .cart-icon {
   font-size: 30px; /* Adjust size as needed */
   color: #007bff; /* Custom color */
+  margin-left: 20px;
 }
 
 .cart-badge {
   font-size: 14px; /* Adjust size as needed */
   background-color: #ffc107; /* Custom color */
   margin-left: 5px;
+  margin-right: 15px;
+}
+
+.user-icon {
+  font-size: 30px;
+  color: #007bff;
+  margin: 10px;
+}
+
+.user-icon:hover {
+  color: #026cdd;
+}
+
+.dropdown-menu {
+  z-index: 1000; /* Ensure the dropdown menu appears above other elements */
+}
+
+.search-box-container {
+  flex-grow: 1;
 }

@@ -27,7 +27,7 @@ const App = () => {
     <>
       <ToastContainer />
       <Header />
-      <NavBar/>
+      <NavBar />
       <main className='py-0'>
         <Container fluid>
           <Outlet />
