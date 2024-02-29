@@ -1,36 +1,42 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel, Image } from 'react-bootstrap';
-import Message from './Message';
-import { useGetTopProductsQuery } from '../slices/productsApiSlice';
+// import Message from './Message';
+
+const slides = [
+  {
+    id: 1,
+    name: 'Product 1',
+    image: './banners/banner-4.jpg',
+    price: 19.99,
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    image: './banners/banner-5.jpg',
+    price: 24.99,
+  },
+  {
+    id: 3,
+    name: 'Product 3',
+    image: './banners/banner-6.jpg',
+    price: 29.99,
+  },
+];
 
 const ProductCarousel = () => {
-  const { data: products, isLoading, error } = useGetTopProductsQuery();
-
-  return isLoading ? null : error ? (
-    <Message variant='danger'>{error?.data?.message || error.error}</Message>
-  ) : (
-    <Carousel
-      pause='hover'
-      className='bg-primary mb-4'
-      fade
-      style={{ width: '100%' }}
-    >
-      {products.map((product) => (
-        <Carousel.Item key={product._id}>
-          <Link to={`/product/${product._id}`}>
+  return (
+    <Carousel pause='hover' className='bg-primary mb-4'>
+      {slides.map((slide) => (
+        <Carousel.Item key={slide.id}>
+          <Link to={`/`}>
             <Image
-              src={product.image}
-              alt={product.name}
+              src={slide.image}
+              alt={slide.name}
               fluid
-              // className='d-block w-100'
               style={{ height: '400px', objectFit: 'cover' }}
               className='d-block w-100'
             />
-            <Carousel.Caption className='carousel-caption'>
-              <h2 className='text-white text-right'>
-                {product.name} (UGX {product.price})
-              </h2>
-            </Carousel.Caption>
           </Link>
         </Carousel.Item>
       ))}
