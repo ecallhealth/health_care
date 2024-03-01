@@ -33,37 +33,36 @@ const Header = () => {
 
   return (
     <header className='header'>
-  <Navbar bg='#232f3e' variant='light'>
-    <Container className="d-flex justify-content-between align-items-center">
-      {/* Logo on the left */}
-      <LinkContainer to='/'>
-        <Navbar.Brand href='#home'>ecall health</Navbar.Brand>
-      </LinkContainer>
+      <Navbar bg='#232f3e' variant='light'>
+        <Container className='d-flex justify-content-between align-items-center'>
+          {/* Logo on the left */}
+          <LinkContainer to='/'>
+            <Navbar.Brand href='#home'>ecall health</Navbar.Brand>
+          </LinkContainer>
 
-      {/* Search Box in the middle */}
-      <div className="search-box-container">
-        <Nav className='d-none d-lg-block'>
-          <SearchBox />
-        </Nav>
-      </div>
+          {/* Search Box in the middle */}
+          <div className='search-box-container'>
+            <Nav className='d-none d-lg-block'>
+              <SearchBox />
+            </Nav>
+          </div>
 
-      {/* Cart and User Icon on the right */}
-      <div className="d-flex align-items-center">
-        <LinkContainer to='/cart'>
-          <Nav.Link>
-            <FaShoppingCart className='cart-icon' />
-            {cartItems.length > 0 && (
-              <Badge pill bg='warning' className='cart-badge'>
-                {cartItems.reduce((a, c) => a + c.qty, 0)}
-              </Badge>
-            )}
-          </Nav.Link>
-        </LinkContainer>
-      </div>
-    </Container>
-  </Navbar>
-</header>
-
+          {/* Cart and User Icon on the right */}
+          <div className='d-flex align-items-center'>
+            <LinkContainer to='/cart'>
+              <Nav.Link>
+                <FaShoppingCart className='cart-icon' />
+                {cartItems.length > 0 && (
+                  <Badge pill bg='warning' className='cart-badge'>
+                    {cartItems.reduce((a, c) => a + c.qty, 0)}
+                  </Badge>
+                )}
+              </Nav.Link>
+            </LinkContainer>
+          </div>
+        </Container>
+      </Navbar>
+    </header>
   );
 };
 
