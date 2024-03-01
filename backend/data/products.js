@@ -1,7 +1,7 @@
 const products = [
   {
     name: 'Aivxim Suspension',
-    image: '/images/aivxim.jpg',
+    image: '/imagez/aivxim.jpg',
     description: 'medicine',
     brand: 'Apple',
     category: 'Vitamins and supplements',
@@ -12,7 +12,7 @@ const products = [
   },
   {
     name: 'Livoline Forte 30 CAPS',
-    image: '/images/livolin.jpg',
+    image: '/imagez/livolin.jpg',
     description:
       'multi vitamin used in treatment of liver vdiseases ofvany origin:acute,sub acute,chronic hepatitis,cirrhosis,toxic metabolic liver,intoxications,alcoholic fatty liver',
     brand: 'Apple',
@@ -24,7 +24,7 @@ const products = [
   },
   {
     name: 'Amoxkid',
-    image: '/images/amoxikid.jpg',
+    image: '/imagez/amoxikid.jpg',
     description: 'kid sirup',
     brand: 'amxikid',
     category: 'sirup',
@@ -35,7 +35,7 @@ const products = [
   },
   {
     name: 'ORAQUICK',
-    image: '/images/oraquick.jpg',
+    image: '/imagez/oraquick.jpg',
     description: 'HIV Self test kit',
     brand: 'SELF TEST KIT',
     category: 'System',
@@ -46,7 +46,7 @@ const products = [
   },
   {
     name: 'ORAQUICK',
-    image: '/images/oraquick.jpg',
+    image: '/imagez/oraquick.jpg',
     description: 'HIV Self test kit',
     brand: 'SELF TEST KIT',
     category: 'System',
@@ -57,7 +57,7 @@ const products = [
   },
   {
     name: 'Ciprofla',
-    image: '/images/cipro.jpg',
+    image: '/imagez/cipro.jpg',
     description: 'medicine',
     brand: 'medicine',
     category: 'medicine',
@@ -68,7 +68,7 @@ const products = [
   },
   {
     name: 'Aivxim Suspension',
-    image: '/images/aivxim.jpg',
+    image: '/imagez/aivxim.jpg',
     description: 'medicine',
     brand: 'Apple',
     category: 'Vitamins and supplements',
@@ -79,7 +79,7 @@ const products = [
   },
   {
     name: 'Livoline Forte 30 CAPS',
-    image: '/images/livolin.jpg',
+    image: '/imagez/livolin.jpg',
     description:
       'multi vitamin used in treatment of liver vdiseases ofvany origin:acute,sub acute,chronic hepatitis,cirrhosis,toxic metabolic liver,intoxications,alcoholic fatty liver',
     brand: 'Apple',
@@ -91,7 +91,7 @@ const products = [
   },
   {
     name: 'Amoxkid',
-    image: '/images/amoxikid.jpg',
+    image: '/imagez/amoxikid.jpg',
     description: 'kid sirup',
     brand: 'amxikid',
     category: 'sirup',
@@ -102,7 +102,7 @@ const products = [
   },
   {
     name: 'ORAQUICK',
-    image: '/images/oraquick.jpg',
+    image: '/imagez/oraquick.jpg',
     description: 'HIV Self test kit',
     brand: 'SELF TEST KIT',
     category: 'System',
@@ -113,7 +113,7 @@ const products = [
   },
   {
     name: 'ORAQUICK',
-    image: '/images/oraquick.jpg',
+    image: '/imagez/oraquick.jpg',
     description: 'HIV Self test kit',
     brand: 'SELF TEST KIT',
     category: 'System',
@@ -124,7 +124,7 @@ const products = [
   },
   {
     name: 'Ciprofla',
-    image: '/images/cipro.jpg',
+    image: '/imagez/cipro.jpg',
     description: 'medicine',
     brand: 'medicine',
     category: 'medicine',
