@@ -1,5 +1,5 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants';  // Make sure BASE_URL is using the correct value
 
 import { logout } from './authSlice'; // Import the logout action
 
@@ -9,8 +9,11 @@ import { logout } from './authSlice'; // Import the logout action
 // https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#customizing-queries-with-basequery
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
+  baseUrl: BASE_URL,  // This should be an empty string if using relative paths
 });
+
+
+
 
 async function baseQueryWithAuth(args, api, extra) {
   const result = await baseQuery(args, api, extra);
