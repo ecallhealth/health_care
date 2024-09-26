@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+
 dotenv.config();
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
@@ -17,22 +18,26 @@ connectDB();
 
 const app = express();
 
+// CORS should be set up before routes
+app.use(
+  cors({
+    origin: [
+      'https://ecallhealth.com',
+      'https://health-care-frontend-amber.vercel.app',
+      'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app', // Add your frontend URL here
+    ],
+    credentials: true, // If you need to pass cookies or auth headers
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
-
-app.use(
-  cors({
-    origin: ['https://ecallhealth.com', 'https://health-care-frontend-amber.vercel.app/'],
-  })
-);
-app.options('*', cors());
 
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
