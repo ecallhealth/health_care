@@ -1,5 +1,5 @@
 // Update BASE_URL to point to your Render back-end URL
-export const BASE_URL = 'https://health-care-wvs3.onrender.com';  // Render back-end URL
+export const BASE_URL = 'https://health-care-backend-yxrm.onrender.com';  // Render back-end URL
 
 // API endpoints
 export const PRODUCTS_URL = `${BASE_URL}/api/products`;
