@@ -1,14 +1,13 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../constants'; // Ensure this is correctly defined
-import { logout } from './authSlice'; // Import the logout action
+import { BASE_URL } from '../constants';
+import { logout } from './authSlice';
 
-// Customize the base query to include token management and handle 401 responses
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL, // Make sure BASE_URL is valid
+  baseUrl: BASE_URL,
   prepareHeaders: (headers) => {
-    const token = localStorage.getItem('token'); // Get the token from localStorage
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
     if (token) {
-      headers.set('Authorization', `Bearer ${token}`); // Attach token to the headers
+      headers.set('Authorization', `Bearer ${token}`); // Attach the token to the headers
     }
     return headers;
   },
@@ -24,13 +23,13 @@ async function baseQueryWithAuth(args, api, extra) {
 }
 
 export const apiSlice = createApi({
-  baseQuery: baseQueryWithAuth, // Use the customized baseQuery
+  baseQuery: baseQueryWithAuth,
   tagTypes: ['Product', 'Order', 'User'],
   endpoints: (builder) => ({
-    // Example endpoint
+    // Define your endpoints here
     getProducts: builder.query({
       query: () => '/api/products',
     }),
-    // Define other endpoints as needed
+    // Add other endpoints as needed
   }),
 });
