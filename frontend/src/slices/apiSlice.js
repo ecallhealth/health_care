@@ -1,19 +1,18 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../constants';  // Make sure BASE_URL is using the correct value
-
+import { BASE_URL } from '../constants'; // Ensure this is correctly defined
 import { logout } from './authSlice'; // Import the logout action
 
-// NOTE: code here has changed to handle when our JWT and Cookie expire.
-// We need to customize the baseQuery to be able to intercept any 401 responses
-// and log the user out
-// https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#customizing-queries-with-basequery
-
+// Customize the base query to include token management and handle 401 responses
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,  // This should be an empty string if using relative paths
+  baseUrl: BASE_URL, // Make sure BASE_URL is valid
+  prepareHeaders: (headers) => {
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`); // Attach token to the headers
+    }
+    return headers;
+  },
 });
-
-
-
 
 async function baseQueryWithAuth(args, api, extra) {
   const result = await baseQuery(args, api, extra);
@@ -27,5 +26,11 @@ async function baseQueryWithAuth(args, api, extra) {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithAuth, // Use the customized baseQuery
   tagTypes: ['Product', 'Order', 'User'],
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    // Example endpoint
+    getProducts: builder.query({
+      query: () => '/api/products',
+    }),
+    // Define other endpoints as needed
+  }),
 });
