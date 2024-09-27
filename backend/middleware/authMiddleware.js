@@ -6,16 +6,23 @@ import User from '../models/userModel.js';
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
-  // Read JWT from the 'jwt' cookie
-  token = req.cookies.jwt;
+  // Check if the token is available in the Authorization header or cookies
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    // Extract token from Authorization header
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    // Extract token from cookies
+    token = req.cookies.jwt;
+  }
 
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+      // Fetch user and attach to req object, excluding the password
       req.user = await User.findById(decoded.userId).select('-password');
 
-      next();
+      next(); // Proceed to the next middleware or route handler
     } catch (error) {
       console.error(error);
       res.status(401);
