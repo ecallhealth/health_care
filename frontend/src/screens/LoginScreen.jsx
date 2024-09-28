@@ -30,8 +30,7 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res })); // Dispatch user data and token to Redux store
-      localStorage.setItem('token', res.token); // Store the token in local storage
+      dispatch(setCredentials({ ...res })); // Store user data in Redux
       navigate(redirect); // Redirect after successful login
     } catch (err) {
       toast.error(err?.data?.message || err.error);
