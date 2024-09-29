@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-const allowedOrigin = 'https://ecallhealth.com'; // Replace with your actual frontend URL
+const allowedOrigin = 'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app'; // Replace with your actual frontend URL
 
 // CORS should be set up before routes
 app.use(
