@@ -16,16 +16,16 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
-// Define the single allowed origin
-const allowedOrigin = 'https://ecallhealth.com'; // Replace with your actual frontend URL
+// Get the allowed origins from environment variables
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 
 // CORS middleware
 app.use(
   cors({
     origin: (origin, callback) => {
       console.log(`CORS request from origin: ${origin}`);
-      // Allow the request if it comes from the allowed origin or if the origin is undefined (like in server-side requests)
-      if (origin === allowedOrigin || !origin) {
+      // Allow the request if it comes from the allowed origins array or if the origin is undefined
+      if (allowedOrigins.includes(origin) || !origin) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -34,6 +34,18 @@ app.use(
     credentials: true, // Allow cookies
   })
 );
+
+// Your routes go here
+app.get('/api/some-endpoint', (req, res) => {
+  res.json({ message: 'This is a response from the server!' });
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 
 // Your routes go here
 app.get('/api/some-endpoint', (req, res) => {
