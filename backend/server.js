@@ -16,9 +16,6 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
-
-const app = express();
-
 // Define the single allowed origin
 const allowedOrigin = 'https://ecallhealth.com'; // Replace with your actual frontend URL
 
