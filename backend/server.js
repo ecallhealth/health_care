@@ -16,17 +16,21 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
+const express = require('express');
+const cors = require('cors');
+
 const app = express();
-// Get the allowed origins from environment variables
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+
+// Define the single allowed origin
+const allowedOrigin = 'https://ecallhealth.com'; // Replace with your actual frontend URL
 
 // CORS middleware
 app.use(
   cors({
     origin: (origin, callback) => {
       console.log(`CORS request from origin: ${origin}`);
-      // Allow the request if it comes from the allowed origins array or if the origin is undefined
-      if (allowedOrigins.includes(origin) || !origin) {
+      // Allow the request if it comes from the allowed origin or if the origin is undefined (like in server-side requests)
+      if (origin === allowedOrigin || !origin) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -35,18 +39,18 @@ app.use(
     credentials: true, // Allow cookies
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/upload', uploadRoutes);
+// Your routes go here
+app.get('/api/some-endpoint', (req, res) => {
+  res.json({ message: 'This is a response from the server!' });
+});
 
-app.get('/api/config/paypal', (req, res) =>
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
-);
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
