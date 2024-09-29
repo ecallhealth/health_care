@@ -17,23 +17,21 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-const allowedOrigins = [
-  'https://ecallhealth.com',
-  'https://health-care-frontend-amber.vercel.app',
-  'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app',
-];
+const allowedOrigin = 'https://www.ecallhealth.com'; // Replace with your actual frontend URL
 
 // CORS should be set up before routes
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      console.log(`CORS request from origin: ${origin}`);
+      // Allow the request if it comes from the allowed origin or if the origin is undefined (like in server-side requests)
+      if (origin === allowedOrigin || !origin) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    credentials: true,  // Allow cookies
+    credentials: true, // Allow cookies
   })
 );
 app.use(express.json());
