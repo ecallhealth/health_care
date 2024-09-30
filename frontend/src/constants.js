@@ -1,7 +1,10 @@
+export const BASE_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000'   // For local development
+    : 'https://health-care-backend-yxrm.onrender.com';  // Render URL for production
 // src/constants.js
-
-// Base URL for the production environment from environment variable
-export const BASE_URL = process.env.BASE_URL; // Set this to the production URL in your .env file
+// Base URL for the production environment
+export const BASE_URL = 'https://health-care-backend-yxrm.onrender.com'; // Render URL for production
 
 // API endpoints
 export const PRODUCTS_URL = `${BASE_URL}/api/products`;
