@@ -3,9 +3,9 @@ import { BASE_URL } from '../constants';
 import { logout } from './authSlice';
 
 // Base query setup with credentials (for JWT cookies)
-const baseQuery = fetchBaseQuery({
+const baseQueryWithAuth = fetchBaseQuery({
   baseUrl: BASE_URL,
-  credentials: 'include',  // This ensures cookies are sent with every request
+  credentials: 'include',  // This ensures cookies (JWT) are sent with every request
 });
 
 // Custom baseQueryWithAuth to handle token expiration
