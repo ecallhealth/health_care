@@ -8,5 +8,5 @@ export const BASE_URL =
 
 // export const PRODUCTS_URL = `${BASE_URL}/api/products`;  // Uncomment if you have this route
 // export const USERS_URL = `${BASE_URL}/api/users`;  // Uncomment if you have this route
-// export const ORDERS_URL = `${BASE_URL}/api/orders`;  // Uncomment if you have this route
+export const ORDERS_URL = `${BASE_URL}/routes/orderRoutes`;  // Uncomment if you have this route
 // export const PAYPAL_URL = `${BASE_URL}/api/config/paypal`;  // Uncomment if you have this route
