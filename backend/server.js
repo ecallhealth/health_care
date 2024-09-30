@@ -16,48 +16,32 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
-// Get the allowed origins from environment variables
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+const app = express();
 
-// CORS middleware
+// CORS should be set up before routes
 app.use(
   cors({
-    origin: (origin, callback) => {
-      console.log(`CORS request from origin: ${origin}`);
-      // Allow the request if it comes from the allowed origins array or if the origin is undefined
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true, // Allow cookies
+    origin: [
+      'https://ecallhealth.com',
+      'https://health-care-frontend-amber.vercel.app',
+      'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app', // Add your frontend URL here
+    ],
+    credentials: true, // If you need to pass cookies or auth headers
   })
 );
 
-// Your routes go here
-app.get('/api/some-endpoint', (req, res) => {
-  res.json({ message: 'This is a response from the server!' });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
-
-// Your routes go here
-app.get('/api/some-endpoint', (req, res) => {
-  res.json({ message: 'This is a response from the server!' });
-});
-
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
+app.get('/api/config/paypal', (req, res) =>
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+);
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
