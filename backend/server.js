@@ -21,22 +21,11 @@ const app = express();
 // CORS should be set up before routes
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        'https://ecallhealth.com',
-        'https://health-care-frontend-amber.vercel.app',
-        'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app',
-      ];
-
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,  // Allow sending cookies or auth headers
+    origin: 'https://health-care-frontend-r8mehepr2-ecallhealths-projects.vercel.app',  // Specific Vercel front-end URL
+    credentials: true,
   })
 );
+
 
 
 app.use(express.json());
