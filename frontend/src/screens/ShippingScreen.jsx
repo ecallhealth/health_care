@@ -54,7 +54,7 @@ const ShippingScreen = () => {
         </Form.Group>
 
         <Form.Group className='my-2' controlId='postalCode'>
-          <Form.Label>Postal Code</Form.Label>
+          <Form.Label>Phone Number</Form.Label>
           <Form.Control
             type='text'
             placeholder='Enter postal code'
