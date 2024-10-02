@@ -35,7 +35,7 @@ const ProductListScreen = () => {
     }
   };
 
-  const createProductHandler = async () => {
+const createProductHandler = async () => {
   if (window.confirm('Are you sure you want to create a new product?')) {
     try {
       const createdProduct = await createProduct();  // Ensure that the API response returns the product ID
@@ -47,7 +47,6 @@ const ProductListScreen = () => {
     }
   }
 };
-
 
   return (
     <>
