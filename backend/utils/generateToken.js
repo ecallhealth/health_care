@@ -15,7 +15,7 @@ const generateToken = (res, userId) => {
   res.cookie('jwt', token, {
     httpOnly: true,  // Prevents client-side JavaScript from accessing the cookie
     secure: process.env.NODE_ENV === 'production',  // Use secure cookies in production (only sent over HTTPS)
-    sameSite: 'strict',  // Helps prevent CSRF attacks by restricting cross-site sending of cookies
+    sameSite: 'None',  // Helps prevent CSRF attacks by restricting cross-site sending of cookies
     maxAge: 30 * 24 * 60 * 60 * 1000,  // Set cookie to expire in 30 days
   });
 };
