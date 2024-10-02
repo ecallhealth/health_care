@@ -35,20 +35,19 @@ const ProductListScreen = () => {
     }
   };
 
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
-
   const createProductHandler = async () => {
-    if (window.confirm('Are you sure you want to create a new product?')) {
-      try {
-        const { _id: createdProductId } = await createProduct();  // Create product and get the new ID
-        toast.success('Product created successfully');
-        navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to product edit form
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  if (window.confirm('Are you sure you want to create a new product?')) {
+    try {
+      const createdProduct = await createProduct();  // Ensure that the API response returns the product ID
+      const { _id: createdProductId } = createdProduct;  // Extract the _id or id
+      toast.success('Product created successfully');
+      navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to the edit page with the correct ID
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
-  };
+  }
+};
+
 
   return (
     <>
