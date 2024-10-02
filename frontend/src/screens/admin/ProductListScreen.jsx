@@ -1,4 +1,5 @@
-import { LinkContainer, useNavigate } from 'react-router-bootstrap'; // Add useNavigate
+import { LinkContainer } from 'react-router-bootstrap';  // Correct import for LinkContainer
+import { useNavigate } from 'react-router-dom';  // Correct import for useNavigate
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
@@ -14,7 +15,7 @@ import { toast } from 'react-toastify';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
-  const navigate = useNavigate(); // Use navigate to redirect to product creation form
+  const navigate = useNavigate();  // Corrected navigate usage
 
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
@@ -34,22 +35,20 @@ const ProductListScreen = () => {
     }
   };
 
-  // Function to create product and navigate to edit form
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation();
+
   const createProductHandler = async () => {
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
-        const { _id: createdProductId } = await createProduct(); // Create product and get the new ID
+        const { _id: createdProductId } = await createProduct();  // Create product and get the new ID
         toast.success('Product created successfully');
-        // Navigate to product edit page to fill in details
-        navigate(`/admin/product/${createdProductId}/edit`);
+        navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to product edit form
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
     }
   };
-
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
 
   return (
     <>
