@@ -55,7 +55,7 @@ const ClinicScreen = () => {
                       Basic Consultation
                     </Card.Title>
                     <Card.Text className='text-center'>Starting from</Card.Text>
-                    <Card.Text className='text-center'>UGX 50,000</Card.Text>
+                    <Card.Text className='text-center'>Free</Card.Text>
                     <Button variant='primary' className='w-100'>
                       Book Now
                     </Button>
@@ -72,7 +72,7 @@ const ClinicScreen = () => {
                       Premium Consultation
                     </Card.Title>
                     <Card.Text className='text-center'>Starting from</Card.Text>
-                    <Card.Text className='text-center'>Free</Card.Text>
+                    <Card.Text className='text-center'>UGX 30,000</Card.Text>
                     <Button variant='primary' className='w-100'>
                       Book Now
                     </Button>
