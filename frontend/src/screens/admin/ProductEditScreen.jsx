@@ -37,6 +37,7 @@ const ProductEditScreen = () => {
 
   const navigate = useNavigate();
 
+  // Form submission handler to update product
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -49,7 +50,7 @@ const ProductEditScreen = () => {
         category,
         description,
         countInStock,
-      }).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+      }).unwrap();  // Unwraps the promise to handle errors more easily
       toast.success('Product updated');
       refetch();
       navigate('/admin/productlist');
@@ -58,30 +59,33 @@ const ProductEditScreen = () => {
     }
   };
 
+  // Effect to populate form fields when product data is fetched
   useEffect(() => {
     if (product) {
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
+      setName(product.name || '');
+      setPrice(product.price || 0);
+      setImage(product.image || '');
+      setBrand(product.brand || '');
+      setCategory(product.category || '');
+      setCountInStock(product.countInStock || 0);
+      setDescription(product.description || '');
     }
   }, [product]);
 
+  // Handle image upload
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
     formData.append('image', e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
-      setImage(res.image);
+      toast.success('Image uploaded successfully');
+      setImage(res.image);  // Set the uploaded image URL
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
 
+  // Allow manual image URL input
   const handleImageUrlChange = (e) => {
     setImage(e.target.value);
   };
@@ -124,13 +128,13 @@ const ProductEditScreen = () => {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter image url'
+                placeholder='Enter image URL or upload a file'
                 value={image}
-                onChange={(e) => setImage(e.target.value)}
+                onChange={handleImageUrlChange}  // Handle URL input
               ></Form.Control>
               <Form.Control
                 label='Choose File'
-                onChange={uploadFileHandler}
+                onChange={uploadFileHandler}  // Handle file upload
                 type='file'
               ></Form.Control>
               {loadingUpload && <Loader />}
@@ -150,7 +154,7 @@ const ProductEditScreen = () => {
               <Form.Label>Count In Stock</Form.Label>
               <Form.Control
                 type='number'
-                placeholder='Enter countInStock'
+                placeholder='Enter stock count'
                 value={countInStock}
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
