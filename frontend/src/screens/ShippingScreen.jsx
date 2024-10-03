@@ -57,7 +57,7 @@ const ShippingScreen = () => {
           <Form.Label>Phone Number</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter postal code'
+            placeholder='Enter Phone Number'
             value={postalCode}
             required
             onChange={(e) => setPostalCode(e.target.value)}
