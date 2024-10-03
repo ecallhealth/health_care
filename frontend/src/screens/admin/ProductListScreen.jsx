@@ -39,16 +39,26 @@ const ProductListScreen = () => {
     useCreateProductMutation();
 
   const createProductHandler = async () => {
-    if (window.confirm('Are you sure you want to create a new product?')) {
-      try {
-        const { _id: createdProductId } = await createProduct();  // Create product and get the new ID
-        toast.success('Product created successfully');
-        navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to product edit form
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
+  if (window.confirm('Are you sure you want to create a new product?')) {
+    try {
+      const createdProduct = await createProduct();  // Await the created product object
+      console.log('Created Product:', createdProduct);  // Debugging: log the full product object
+
+      // Ensure the product ID (_id) exists in the created product
+      const createdProductId = createdProduct?._id;
+      if (!createdProductId) {
+        throw new Error('Product ID is undefined');
       }
+
+      toast.success('Product created successfully');
+      navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to edit page
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.error('Error creating product:', err);  // Debugging: log error
     }
-  };
+  }
+};
+
 
   return (
     <>
