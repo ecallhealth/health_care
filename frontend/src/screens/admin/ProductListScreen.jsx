@@ -43,20 +43,19 @@ const ProductListScreen = () => {
     try {
       const createdProduct = await createProduct();  // Await the created product object
       
-      // Log the full response to inspect what it contains
-      console.log('Created Product:', createdProduct);  // Log the actual object
-
-      // Check if the _id exists
-      const createdProductId = createdProduct?._id;
+      // Access the _id inside the data field
+      console.log('Created Product:', createdProduct.data);  // Log the actual product object
+      
+      const createdProductId = createdProduct?.data?._id;  // Access _id inside the data object
       if (!createdProductId) {
-        throw new Error(`Product ID is undefined. Full response: ${JSON.stringify(createdProduct)}`);
+        throw new Error(`Product ID is undefined. Full response: ${JSON.stringify(createdProduct.data)}`);
       }
 
       toast.success('Product created successfully');
-      navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to edit page
+      navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to the edit page with the correct ID
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-      console.error('Error creating product:', err);  // Log the error
+      console.error('Error creating product:', err);  // Log the error for debugging
     }
   }
 };
