@@ -42,22 +42,25 @@ const ProductListScreen = () => {
   if (window.confirm('Are you sure you want to create a new product?')) {
     try {
       const createdProduct = await createProduct();  // Await the created product object
-      console.log('Created Product:', createdProduct);  // Debugging: log the full product object
+      
+      // Log the full response to inspect what it contains
+      console.log('Created Product:', createdProduct);  // Log the actual object
 
-      // Ensure the product ID (_id) exists in the created product
+      // Check if the _id exists
       const createdProductId = createdProduct?._id;
       if (!createdProductId) {
-        throw new Error('Product ID is undefined');
+        throw new Error(`Product ID is undefined. Full response: ${JSON.stringify(createdProduct)}`);
       }
 
       toast.success('Product created successfully');
       navigate(`/admin/product/${createdProductId}/edit`);  // Navigate to edit page
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-      console.error('Error creating product:', err);  // Debugging: log error
+      console.error('Error creating product:', err);  // Log the error
     }
   }
 };
+
 
 
   return (
