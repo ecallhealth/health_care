@@ -52,10 +52,9 @@ const createProduct = asyncHandler(async (req, res) => {
   });
 
   const createdProduct = await product.save();
-  
-  // Return full product object with ID
-  res.status(201).json(createdProduct);
+  res.status(201).json(createdProduct);  // Return the full product object with _id
 });
+
 
 // @desc    Update a product
 // @route   PUT /api/products/:id
