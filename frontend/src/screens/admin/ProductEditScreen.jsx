@@ -12,7 +12,8 @@ import {
 } from '../../slices/productsApiSlice';
 
 const ProductEditScreen = () => {
-  const { id: productId } = useParams();
+  const { id: productId } = useParams();  // Extract productId from URL
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -22,22 +23,14 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error,
-  } = useGetProductDetailsQuery(productId);
+  // Fetch product details based on productId
+  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
 
-  const [updateProduct, { isLoading: loadingUpdate }] =
-    useUpdateProductMutation();
+  // Mutation hooks for updating product and uploading images
+  const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
 
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadProductImageMutation();
-
-  const navigate = useNavigate();
-
-  // Form submission handler to update product
+  // Form submission handler for updating product details
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -50,16 +43,16 @@ const ProductEditScreen = () => {
         category,
         description,
         countInStock,
-      }).unwrap();  // Unwraps the promise to handle errors more easily
+      }).unwrap();
       toast.success('Product updated');
       refetch();
-      navigate('/admin/productlist');
+      navigate('/admin/productlist');  // Redirect to product list
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
 
-  // Effect to populate form fields when product data is fetched
+  // Populate form with product details once they are loaded
   useEffect(() => {
     if (product) {
       setName(product.name || '');
@@ -71,6 +64,14 @@ const ProductEditScreen = () => {
       setDescription(product.description || '');
     }
   }, [product]);
+
+  // Log error if productId is undefined or invalid
+  useEffect(() => {
+    if (!productId) {
+      console.error('Invalid Product ID');
+      toast.error('Invalid Product ID');
+    }
+  }, [productId]);
 
   // Handle image upload
   const uploadFileHandler = async (e) => {
@@ -85,7 +86,7 @@ const ProductEditScreen = () => {
     }
   };
 
-  // Allow manual image URL input
+  // Handle manual image URL input
   const handleImageUrlChange = (e) => {
     setImage(e.target.value);
   };
@@ -180,11 +181,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Button
-              type='submit'
-              variant='primary'
-              style={{ marginTop: '1rem' }}
-            >
+            <Button type='submit' variant='primary' style={{ marginTop: '1rem' }}>
               Update
             </Button>
           </Form>
