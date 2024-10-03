@@ -11,9 +11,7 @@ import { clearCartItems } from '../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
-
   const cart = useSelector((state) => state.cart);
-
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   useEffect(() => {
@@ -37,7 +35,7 @@ const PlaceOrderScreen = () => {
         totalPrice: cart.totalPrice,
       }).unwrap();
       dispatch(clearCartItems());
-      navigate(/order/${res._id});
+      navigate(`/order/${res._id}`); // Fixed here
     } catch (err) {
       toast.error(err);
     }
@@ -83,7 +81,7 @@ const PlaceOrderScreen = () => {
                           />
                         </Col>
                         <Col>
-                          <Link to={/product/${item.product}}>
+                          <Link to={`/product/${item.product}`}> // Fixed here
                             {item.name}
                           </Link>
                         </Col>
