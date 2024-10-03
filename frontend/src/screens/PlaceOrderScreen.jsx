@@ -11,11 +11,11 @@ import { clearCartItems } from '../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
-
+  // Ensure that shipping address and payment method are set
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
@@ -24,7 +24,22 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
-  const dispatch = useDispatch();
+  // Remove tax from the order summary
+  cart.taxPrice = 0;
+
+  // Currency in UGX
+  const formatCurrencyUGX = (amount) => {
+    return new Intl.NumberFormat('en-UG', {
+      style: 'currency',
+      currency: 'UGX',
+    }).format(amount);
+  };
+
+  // Calculate total price (including shipping, with tax set to 0)
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
   const placeOrderHandler = async () => {
     try {
       const res = await createOrder({
@@ -88,8 +103,8 @@ const PlaceOrderScreen = () => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = $
-                          {(item.qty * (item.price * 100)) / 100}
+                          {item.qty} x {formatCurrencyUGX(item.price)} ={' '}
+                          {formatCurrencyUGX(item.qty * item.price)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -108,25 +123,25 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
+                  <Col>{formatCurrencyUGX(cart.itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
+                  <Col>{formatCurrencyUGX(cart.shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
+                  <Col>{formatCurrencyUGX(cart.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
+                  <Col>{formatCurrencyUGX(cart.totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -138,7 +153,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block'
-                  disabled={cart.cartItems === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order
