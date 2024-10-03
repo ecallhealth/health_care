@@ -11,11 +11,11 @@ import { clearCartItems } from '../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
 
-  // Ensure that shipping address and payment method are set
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
@@ -24,22 +24,7 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
-  // Remove tax from the order summary
-  cart.taxPrice = 0;
-
-  // Currency in UGX
-  const formatCurrencyUGX = (amount) => {
-    return new Intl.NumberFormat('en-UG', {
-      style: 'currency',
-      currency: 'UGX',
-    }).format(amount);
-  };
-
-  // Calculate total price (including shipping, with tax set to 0)
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
-
+  const dispatch = useDispatch();
   const placeOrderHandler = async () => {
     try {
       const res = await createOrder({
@@ -52,7 +37,7 @@ const PlaceOrderScreen = () => {
         totalPrice: cart.totalPrice,
       }).unwrap();
       dispatch(clearCartItems());
-      navigate(`/order/${res._id}`);
+      navigate(/order/${res._id});
     } catch (err) {
       toast.error(err);
     }
@@ -98,13 +83,13 @@ const PlaceOrderScreen = () => {
                           />
                         </Col>
                         <Col>
-                          <Link to={`/product/${item.product}`}>
+                          <Link to={/product/${item.product}}>
                             {item.name}
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x {formatCurrencyUGX(item.price)} ={' '}
-                          {formatCurrencyUGX(item.qty * item.price)}
+                          {item.qty} x ${item.price} = $
+                          {(item.qty * (item.price * 100)) / 100}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -123,25 +108,25 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>{formatCurrencyUGX(cart.itemsPrice)}</Col>
+                  <Col>${cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>{formatCurrencyUGX(cart.shippingPrice)}</Col>
+                  <Col>${cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>{formatCurrencyUGX(cart.taxPrice)}</Col>
+                  <Col>${cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>{formatCurrencyUGX(cart.totalPrice)}</Col>
+                  <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -153,7 +138,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block'
-                  disabled={cart.cartItems.length === 0}
+                  disabled={cart.cartItems === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order
