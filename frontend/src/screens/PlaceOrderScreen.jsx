@@ -11,9 +11,12 @@ import { clearCartItems } from '../slices/cartSlice';
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
+  // Ensure shipping address and payment method are set
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
@@ -22,22 +25,31 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
-  const dispatch = useDispatch();
+  // Place order handler
   const placeOrderHandler = async () => {
     try {
-      const res = await createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      }).unwrap();
-      dispatch(clearCartItems());
-      navigate(`/order/${res._id}`); // Fixed here
+      // Only place order directly if COD is selected
+      if (cart.paymentMethod === 'COD') {
+        const res = await createOrder({
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        }).unwrap();
+
+        // Clear cart and redirect to order details page
+        dispatch(clearCartItems());
+        navigate(`/order/${res._id}`);
+      } else {
+        // For PayPal or other payment methods
+        // Optionally redirect to a payment page (not included in this example)
+        toast.error('PayPal payment is not configured yet.');
+      }
     } catch (err) {
-      toast.error(err);
+      toast.error(err.message || 'Failed to place order.');
     }
   };
 
@@ -81,13 +93,13 @@ const PlaceOrderScreen = () => {
                           />
                         </Col>
                         <Col>
-                          <Link to={`/product/${item.product}`}> // Fixed here
+                          <Link to={`/product/${item.product}`}>
                             {item.name}
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = $
-                          {(item.qty * (item.price * 100)) / 100}
+                          {item.qty} x UGX {item.price} = UGX{' '}
+                          {item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -106,25 +118,25 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
+                  <Col>UGX {cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
+                  <Col>UGX {cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
+                  <Col>UGX {cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
+                  <Col>UGX {cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -136,7 +148,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type='button'
                   className='btn-block'
-                  disabled={cart.cartItems === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order
