@@ -12,11 +12,13 @@ import { clearCartItems } from '../slices/cartSlice';
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   const cart = useSelector((state) => state.cart);
+  const { paymentMethod } = cart;
+
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
-  // Ensure shipping address and payment method are set
+  // Redirect to shipping or payment screen if not set
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
@@ -25,31 +27,24 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
-  // Place order handler
+  // Handle placing order
   const placeOrderHandler = async () => {
     try {
-      // Only place order directly if COD is selected
-      if (cart.paymentMethod === 'COD') {
-        const res = await createOrder({
-          orderItems: cart.cartItems,
-          shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: cart.itemsPrice,
-          shippingPrice: cart.shippingPrice,
-          taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
-        }).unwrap();
+      const res = await createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      }).unwrap();
 
-        // Clear cart and redirect to order details page
-        dispatch(clearCartItems());
-        navigate(`/order/${res._id}`);
-      } else {
-        // For PayPal or other payment methods
-        // Optionally redirect to a payment page (not included in this example)
-        toast.error('PayPal payment is not configured yet.');
-      }
+      // Clear cart and navigate to order details page
+      dispatch(clearCartItems());
+      navigate(`/order/${res._id}`);
     } catch (err) {
-      toast.error(err.message || 'Failed to place order.');
+      toast.error(err?.data?.message || err.message);
     }
   };
 
@@ -151,7 +146,8 @@ const PlaceOrderScreen = () => {
                   disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
-                  Place Order
+                  {/* Dynamically change button label based on payment method */}
+                  {paymentMethod === 'COD' ? 'Place Order' : 'Pay with PayPal'}
                 </Button>
                 {isLoading && <Loader />}
               </ListGroup.Item>
