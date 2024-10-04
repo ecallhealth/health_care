@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
-// import './searchbox.css';
 
 const SearchBox = () => {
   const navigate = useNavigate();
@@ -14,9 +12,8 @@ const SearchBox = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword) {
-      console.log('Search keyword:', keyword); // For debugging
+      // Pass the search term to the backend via the URL
       navigate(`/search/${keyword.trim()}`);
-      setKeyword('');
     } else {
       navigate('/');
     }
