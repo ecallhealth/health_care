@@ -8,12 +8,13 @@ const getProducts = asyncHandler(async (req, res) => {
   const pageSize = Number(process.env.PAGINATION_LIMIT) || 10;
   const page = Math.max(1, Number(req.query.pageNumber) || 1);
 
+  // Capture the search keyword
   const keyword = req.query.keyword
     ? {
         $or: [
           { name: { $regex: req.query.keyword, $options: 'i' } },
           { description: { $regex: req.query.keyword, $options: 'i' } },
-          { category: { $regex: req.query.keyword, $options: 'i' } }, // Added category field
+          { category: { $regex: req.query.keyword, $options: 'i' } },
         ],
       }
     : {};
@@ -30,6 +31,7 @@ const getProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
