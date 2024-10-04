@@ -23,20 +23,20 @@ const SearchBox = () => {
   };
 
   return (
-    // <Form onSubmit={submitHandler} className='d-flex mb-3 search-form'>
-    //   <Form.Control
-    //     type='text'
-    //     name='q'
-    //     onChange={(e) => setKeyword(e.target.value)}
-    //     value={keyword}
-    //     placeholder='Search Products...'
-    //     className='mr-sm-2 search-input'
-    //     style={{ minWidth: '300px' }}
-    //   ></Form.Control>
-    //   <Button type='submit' variant='warning' className='search-button'>
-    //     <FaSearch />
-    //   </Button>
-    // </Form>
+     <Form onSubmit={submitHandler} className='d-flex mb-3 search-form'>
+       <Form.Control
+         type='text'
+         name='q'
+         onChange={(e) => setKeyword(e.target.value)}
+         value={keyword}
+         placeholder='Search Products...'
+         className='mr-sm-2 search-input'
+         style={{ minWidth: '300px' }}
+       ></Form.Control>
+       <Button type='submit' variant='warning' className='search-button'>
+         <FaSearch />
+       </Button>
+     </Form>
     <Form className='d-flex'>
       <Form.Control
         type='search'
