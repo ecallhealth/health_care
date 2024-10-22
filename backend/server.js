@@ -21,7 +21,7 @@ const app = express();
 // CORS should be set up before routes
 app.use(
   cors({
-    origin: 'https://ecallhealth.com',  // Specific Vercel front-end URL
+    origin: 'https://host.com',  // Specific Vercel front-end URL
     credentials: true,
   })
 );
