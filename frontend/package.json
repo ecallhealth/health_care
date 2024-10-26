@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": false,
-  "proxy": "https://health-care-backend-yxrm.vim.com",
+  "proxy": "https://health-care-backend-yxrm.onrender.com",
 
  "dependencies": {
   "@paypal/react-paypal-js": "^7.8.2",
