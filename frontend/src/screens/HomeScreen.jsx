@@ -18,11 +18,34 @@ const HomeScreen = () => {
     pageNumber,
   });
 
+  // Reusable JSX block for displaying products
+  const renderProductsSection = () => (
+    <>
+      <h1>{keyword ? `Search Results for '${keyword}'` : 'Latest Products'}</h1>
+
+      {data.products.length === 0 ? (
+        <Message>No products found for the search term "{keyword}"</Message>
+      ) : (
+        <Row>
+          {data.products.map((product) => (
+            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
+
+      <Paginate
+        pages={data.pages}
+        page={data.page}
+        keyword={keyword ? keyword : ''}
+      />
+    </>
+  );
+
   return (
     <>
-      {!keyword ? (
-        <ProductCarousel />
-      ) : (
+      {!keyword ? <ProductCarousel /> : (
         <Link to='/' className='btn btn-light mb-4'>
           Go Back
         </Link>
@@ -37,31 +60,20 @@ const HomeScreen = () => {
       ) : (
         <>
           <Meta />
-          <h1>{keyword ? `Search Results for '${keyword}'` : 'Latest Products'}</h1>
 
-          {data.products.length === 0 ? (
-            <Message>No products found for the search term "{keyword}"</Message>
-          ) : (
-            <Row>
-              {data.products.map((product) => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <Product product={product} />
-                </Col>
-              ))}
-            </Row>
-          )}
+          {/* Display Latest Products for the first time */}
+          {renderProductsSection()}
+          
+          {/* First Advertising Carousel */}
+          {!keyword && <AdvertisingCarousel />}
+          
+          {/* Second Carousel */}
+          <SlidingCarousel />
 
-          <Paginate
-            pages={data.pages}
-            page={data.page}
-            keyword={keyword ? keyword : ''}
-          />
+          {/* Display Latest Products for the second time */}
+          {renderProductsSection()}
         </>
       )}
-
-      {!keyword ? <AdvertisingCarousel /> : null}
-
-      <SlidingCarousel />
     </>
   );
 };
